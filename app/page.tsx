@@ -80,7 +80,7 @@ function MenuContent() {
           className="mb-12"
         >
           {/* Logo reference: clique.jpg */}
-          <img src="/logo.png" alt="Clique Cafe Logo" className="w-64 h-64 object-contain shadow-2xl rounded-full" />
+          <img src="/clique.jpg" alt="Clique Cafe Logo" className="w-64 h-64 object-contain shadow-2xl rounded-full" />
         </motion.div>
         
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}>
@@ -96,7 +96,7 @@ function MenuContent() {
         </motion.div>
 
         <footer className="absolute bottom-10 text-[8px] tracking-[0.4em] uppercase opacity-20 font-sans">
-          Boutique Experience • w3xplorers Bangladesh
+          Delight Cafe Experience • Aparup Barua
         </footer>
       </motion.div>
     );
