@@ -1,10 +1,10 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { ref, onValue, push } from "firebase/database";
 import { db } from "@/lib/firebase";
 
-export default function MenuPage() {
+function MenuContent() {
   const [menu, setMenu] = useState<any>(null);
   const searchParams = useSearchParams();
   const table = searchParams.get("table") || "Walk-in";
@@ -64,5 +64,13 @@ export default function MenuPage() {
         ))}
       </div>
     </div>
+  );
+}
+
+export default function MenuPage() {
+  return (
+    <Suspense fallback={<div className="p-10 text-center">Loading...</div>}>
+      <MenuContent />
+    </Suspense>
   );
 }
