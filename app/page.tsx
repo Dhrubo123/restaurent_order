@@ -27,6 +27,7 @@ function MenuContent() {
   const [loading, setLoading] = useState(true);
   const [showMenu, setShowMenu] = useState(false); 
   const [cart, setCart] = useState<MenuItem[]>([]); 
+  const [showCartModal, setShowCartModal] = useState(false); 
   
   const searchParams = useSearchParams();
   const tableId = searchParams.get("table") || "Walk-in";
@@ -120,7 +121,7 @@ function MenuContent() {
                  <span className="block text-[10px] opacity-40 uppercase tracking-widest">Cart Status</span>
                  <span className="text-xs font-bold uppercase tracking-widest">{cart.length} Items Added</span>
                </div>
-               <button className="bg-amber-600 px-6 py-3 rounded-xl text-[10px] font-black tracking-widest hover:bg-amber-700 transition-colors">
+               <button onClick={() => setShowCartModal(true)} className="bg-amber-600 px-6 py-3 rounded-xl text-[10px] font-black tracking-widest hover:bg-amber-700 transition-colors">
                  VIEW ORDER
                </button>
             </div>
@@ -199,6 +200,52 @@ function MenuContent() {
           </div>
         )}
       </main>
+
+      <AnimatePresence>
+        {showCartModal && (
+          <motion.div 
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-[#1a1a1a]/80 z-[100] flex items-center justify-center p-6 backdrop-blur-sm"
+          >
+            <motion.div 
+              initial={{ scale: 0.9, y: 20 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.9, y: 20 }}
+              className="bg-[#faf9f6] w-full max-w-md rounded-[2rem] p-8 relative shadow-2xl"
+            >
+              <button 
+                onClick={() => setShowCartModal(false)} 
+                className="absolute top-6 right-6 w-8 h-8 flex items-center justify-center bg-[#f0eee4] rounded-full text-amber-900/50 hover:text-amber-900 transition-colors"
+              >
+                ✕
+              </button>
+              
+              <div className="text-center mb-8">
+                <p className="text-[10px] uppercase tracking-[0.4em] text-amber-800/60 mb-2">Table {tableId}</p>
+                <h2 className="text-3xl font-serif italic text-[#1a1a1a]">Your Order</h2>
+              </div>
+
+              <div className="max-h-[50vh] overflow-y-auto space-y-4 mb-8 pr-2">
+                {cart.map((item, idx) => (
+                  <div key={idx} className="flex justify-between items-center p-4 bg-white rounded-2xl border border-[#e5e1da]">
+                    <span className="font-bold text-[#2d241e] font-serif">{item.name}</span>
+                    <span className="text-amber-800 font-bold">৳{item.price}</span>
+                  </div>
+                ))}
+              </div>
+
+              <div className="flex justify-between items-end border-t border-amber-900/10 pt-6">
+                <span className="text-[10px] uppercase tracking-widest text-amber-800/60 font-bold">Total Ordered</span>
+                <span className="text-2xl font-serif italic text-[#1a1a1a]">
+                  ৳{cart.reduce((sum, item) => sum + item.price, 0)}
+                </span>
+              </div>
+              
+              <div className="mt-8 text-center bg-amber-50 p-4 rounded-xl border border-amber-100">
+                <p className="text-[10px] uppercase tracking-widest text-amber-800 font-bold">Your order has been sent to the kitchen</p>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <footer className="py-20 text-center opacity-10 text-[9px] uppercase tracking-[0.4em] font-bold">
         © 2026 Clique Cafe • Powered by w3xplorers Bangladesh
